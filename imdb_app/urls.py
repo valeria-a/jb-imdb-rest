@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from imdb_app import views
+
 # http://127.0.0.1:8000/api/imdb/movies
-# api/imdb/movies
+# movies
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/imdb/', include('imdb_app.urls'))
+    path('movies', views.get_movies)
 ]
