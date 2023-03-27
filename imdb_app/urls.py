@@ -22,5 +22,6 @@ from imdb_app import views
 # movies
 
 urlpatterns = [
-    path('movies', views.get_movies)
+    path('movies', views.get_movies),
+    path('actors', views.get_actors)
 ]

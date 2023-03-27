@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from imdb_app.models import *
-from imdb_app.serializers import MovieSerializer
+from imdb_app.serializers import MovieSerializer, ActorSerializer
 
 
 # Create your views here.
@@ -28,4 +28,10 @@ from imdb_app.serializers import MovieSerializer
 def get_movies(request):
     all_movies = Movie.objects.all()
     serializer = MovieSerializer(instance=all_movies, many=True)
+    return Response(data=serializer.data)
+
+@api_view(['GET'])
+def get_actors(request):
+    all_actors = Actor.objects.all()
+    serializer = ActorSerializer(instance=all_actors, many=True)
     return Response(data=serializer.data)
