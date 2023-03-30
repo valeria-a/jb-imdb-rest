@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from imdb_app.models import Movie, Actor
+from imdb_app.models import Movie, Actor, MovieActor
 
 
 # class MovieSerializer(serializers.Serializer):
@@ -28,3 +28,11 @@ class ActorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Actor
         fields = '__all__'
+
+
+class CastSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MovieActor
+        # fields = '__all__'
+        exclude = ['id', 'movie']
+        depth = 1

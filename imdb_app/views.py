@@ -59,6 +59,14 @@ def get_movie(request, movie_id):
     serializer = DetailedMovieSerializer(instance=movie)
     return Response(data=serializer.data)
 
+@api_view(['GET'])
+def get_movie_actors(request, movie_id):
+
+    movie = get_object_or_404(Movie, id=movie_id)
+    all_casts = movie.movieactor_set.all()
+    serializer = CastSerializer(instance=all_casts, many=True)
+    return Response(data=serializer.data)
+
 
 @api_view(['GET'])
 def get_actors(request):
