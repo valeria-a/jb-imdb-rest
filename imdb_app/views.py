@@ -73,3 +73,18 @@ def get_actors(request):
     all_actors = Actor.objects.all()
     serializer = ActorSerializer(instance=all_actors, many=True)
     return Response(data=serializer.data)
+
+
+@api_view(['GET'])
+def get_ratings(request):
+    all_ratings = Rating.objects.all()
+    serializer = RatingSerializer(instance=all_ratings, many=True)
+    return Response(data=serializer.data)
+
+
+@api_view(['GET'])
+def get_movie_ratings(request, movie_id):
+    movie = Movie.objects.get(id=movie_id)
+    serializer = RatingSerializer(
+        instance=movie.rating_set.all(), many=True)
+    return Response(data=serializer.data)
