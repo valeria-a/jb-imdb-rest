@@ -21,7 +21,12 @@ from imdb_app import views
 # http://127.0.0.1:8000/api/imdb/movies
 # movies
 
+# http://127.0.0.1:8000/api/imdb/movies/3
+# http://127.0.0.1:8000/api/imdb/movies/327
+
 urlpatterns = [
     path('movies', views.get_movies),
+    path('movies/<int:movie_id>', views.get_movie),
+
     path('actors', views.get_actors)
 ]

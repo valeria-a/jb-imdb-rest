@@ -1,10 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.request import Request
 
+
 from imdb_app.models import *
-from imdb_app.serializers import MovieSerializer, ActorSerializer
+from imdb_app.serializers import *
 
 
 # Create your views here.
@@ -44,6 +46,17 @@ def get_movies(request: Request):
         print("after adding description filter", all_movies.query)
 
     serializer = MovieSerializer(instance=all_movies, many=True)
+    return Response(data=serializer.data)
+
+
+@api_view(['GET'])
+def get_movie(request, movie_id):
+    # try:
+    #     movie = Movie.objects.get(id=movie_id) #object Movie
+    # except Movie.DoesNotExist:
+    #     return Response(status=status.HTTP_404_NOT_FOUND)
+    movie = get_object_or_404(Movie, id=movie_id)
+    serializer = DetailedMovieSerializer(instance=movie)
     return Response(data=serializer.data)
 
 

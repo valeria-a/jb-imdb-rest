@@ -18,6 +18,12 @@ class MovieSerializer(serializers.ModelSerializer):
         # depth = 1
 
 
+class DetailedMovieSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
+        exclude = ['actors']
+
+
 class ActorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Actor
