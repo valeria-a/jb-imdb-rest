@@ -59,15 +59,27 @@ def get_movies(request: Request):
 
 
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT', 'PATCH', 'DELETE'])
 def get_movie(request, movie_id):
     # try:
     #     movie = Movie.objects.get(id=movie_id) #object Movie
     # except Movie.DoesNotExist:
     #     return Response(status=status.HTTP_404_NOT_FOUND)
     movie = get_object_or_404(Movie, id=movie_id)
-    serializer = DetailedMovieSerializer(instance=movie)
-    return Response(data=serializer.data)
+    if request.method == 'GET':
+        serializer = DetailedMovieSerializer(instance=movie)
+        return Response(data=serializer.data)
+    elif request.method in ('PUT', 'PATCH'):
+        serializer = DetailedMovieSerializer(
+            instance=movie, data=request.data,
+            partial=request.method == 'PATCH'
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(data=serializer.data)
+    else:
+        movie.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET'])
 def get_movie_actors(request, movie_id):
@@ -78,11 +90,17 @@ def get_movie_actors(request, movie_id):
     return Response(data=serializer.data)
 
 
-@api_view(['GET'])
-def get_actors(request):
-    all_actors = Actor.objects.all()
-    serializer = ActorSerializer(instance=all_actors, many=True)
-    return Response(data=serializer.data)
+@api_view(['GET', 'POST'])
+def actors(request):
+    if request.method == 'GET':
+        all_actors = Actor.objects.all()
+        serializer = ActorSerializer(instance=all_actors, many=True)
+        return Response(data=serializer.data)
+    else:
+        serializer = ActorSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])

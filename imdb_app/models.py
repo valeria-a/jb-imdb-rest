@@ -3,12 +3,17 @@ import datetime
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
+from imdb_app.validators import validate_year_before_now
+
+
 # Create your models here.
 
 class Actor(models.Model):
 
     name = models.CharField(max_length=256, db_column='name', null=False, blank=False)
-    birth_year = models.IntegerField(db_column='birth_year', null=False)
+    birth_year = models.IntegerField(
+        db_column='birth_year', null=True
+    )
 
     def __str__(self):
         return self.name
@@ -16,22 +21,16 @@ class Actor(models.Model):
     class Meta:
         db_table = 'actors'
 
-# https://docs.djangoproject.com/en/4.1/ref/validators/#writing-validators
-from django.core.exceptions import ValidationError
-
-def validate_year_before_now(val):
-    if val > datetime.datetime.today().year:
-        raise ValidationError("The year is in the future")
-
 
 class Movie(models.Model):
 
     name = models.CharField(max_length=256, db_column='name', null=False)
     description = models.TextField(db_column='description', null=False)
     duration_in_min = models.FloatField(db_column='duration', null=False)
-    release_year = models.IntegerField(db_column='year', null=False,
-                                       validators=[MinValueValidator(1800),
-                                                   validate_year_before_now])
+    release_year = models.IntegerField(
+        db_column='year', null=False,
+        validators=[MinValueValidator(1800),
+                    validate_year_before_now])
     pic_url = models.URLField(max_length=512, db_column='pic_url', null=True)
 
     actors = models.ManyToManyField(Actor, through='MovieActor')

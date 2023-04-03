@@ -3,6 +3,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from imdb_app.models import Movie, Actor, MovieActor, Rating
+from imdb_app.validators import MinAgeValidator
 
 
 # class MovieSerializer(serializers.Serializer):
@@ -27,9 +28,18 @@ class DetailedMovieSerializer(serializers.ModelSerializer):
 
 
 class ActorSerializer(serializers.ModelSerializer):
+
+    # birth_year = serializers.IntegerField(required=False, validators=[])
     class Meta:
         model = Actor
         fields = '__all__'
+        extra_kwargs = {
+            'birth_year': {
+                'required': False,
+                'validators': [MinAgeValidator(5)]
+            },
+        }
+
 
 
 class CastSerializer(serializers.ModelSerializer):
