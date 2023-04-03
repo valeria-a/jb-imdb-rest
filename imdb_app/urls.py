@@ -33,4 +33,5 @@ urlpatterns = [
 
     path('ratings', views.get_ratings),
     path('movies/<int:movie_id>/ratings', views.get_movie_ratings),
+    path('movies/<int:movie_id>/ratings/avg', views.get_avg_movie_rating),
 ]
