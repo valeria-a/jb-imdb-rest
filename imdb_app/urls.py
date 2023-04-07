@@ -27,9 +27,13 @@ from imdb_app import views
 urlpatterns = [
     path('movies', views.get_movies),
     path('movies/<int:movie_id>', views.get_movie),
-    path('movies/<int:movie_id>/actors', views.get_movie_actors),
+    path('movies/<int:movie_id>/actors', views.movie_actors),
+    path('movies/<int:movie_id>/actors/<int:actor_id>', views.movie_actor),
+    path('movies/<int:movie_id>/ratings', views.movie_ratings),
+    path('movies/<int:movie_id>/ratings/<int:rating_id>', views.movie_rating),
 
     path('actors', views.actors),
+    path('actors/<int:actor_id>', views.actor_details),
 
     path('ratings', views.get_ratings),
     path('movies/<int:movie_id>/ratings', views.get_movie_ratings),

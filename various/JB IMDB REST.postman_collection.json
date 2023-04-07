@@ -1,0 +1,542 @@
+{
+	"info": {
+		"_postman_id": "15204353-4f57-4a98-ac2f-467bd0cfca86",
+		"name": "JB IMDB REST",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25164126"
+	},
+	"item": [
+		{
+			"name": "Get movies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/imdb/movies",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"imdb",
+						"movies"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "avatar",
+							"disabled": true
+						},
+						{
+							"key": "duration_from",
+							"value": "150",
+							"disabled": true
+						},
+						{
+							"key": "description",
+							"value": "the",
+							"disabled": true
+						},
+						{
+							"key": "duration_to",
+							"value": "170",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get actors",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/imdb/actors",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"imdb",
+						"actors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get movie details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/imdb/movies/2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"imdb",
+						"movies",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movie actors",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/imdb/movies/107/actors",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"imdb",
+						"movies",
+						"107",
+						"actors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ratings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/imdb/ratings",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"imdb",
+						"ratings"
+					],
+					"query": [
+						{
+							"key": "from_date",
+							"value": "2023-01-01",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movie ratings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/imdb/movies/3/ratings",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"imdb",
+						"movies",
+						"3",
+						"ratings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Avg movie rating",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/imdb/movies/3/ratings/avg",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"imdb",
+						"movies",
+						"3",
+						"ratings",
+						"avg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new movie",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"Back to the future\",\n\"description\": \"Marty McFly, a 17-year-old high school student, is accidentally sent 30 years into the past in a time-traveling DeLorean invented by his close friend, the maverick scientist Doc Brown.\",\n\"release_year\": 1985,\n\"duration_in_min\": 116,\n\"cast\": [\n    {\"actor\": 105,\n     \"salary\": 1200000,\n     \"main_role\": true},\n    {\"actor\": 106,\n     \"salary\": 1100000,\n     \"main_role\": true}\n]}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/imdb/movies",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"imdb",
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update movie",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "description",
+							"value": "new ",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "John Wick 4",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "release_year",
+							"value": "2023",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "duration_in_min",
+							"value": "169",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/imdb/movies/100",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"imdb",
+						"movies",
+						"100"
+					],
+					"query": [
+						{
+							"key": "de",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete movie",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/imdb/movies/105",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"imdb",
+						"movies",
+						"105"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update actor",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "birth_year",
+							"value": "1977",
+							"type": "text"
+						},
+						{
+							"key": "id",
+							"value": "11",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/imdb/actors/10",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"imdb",
+						"actors",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add actor to movie",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "actor",
+							"value": "104",
+							"type": "text"
+						},
+						{
+							"key": "main_role",
+							"value": "True",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/imdb/movies/6/actors",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"imdb",
+						"movies",
+						"6",
+						"actors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update cast details",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/imdb/movies/6/actors/104?salary=1230000",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"imdb",
+						"movies",
+						"6",
+						"actors",
+						"104"
+					],
+					"query": [
+						{
+							"key": "salary",
+							"value": "1230000"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add rating to movie",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "rating",
+							"value": "8",
+							"type": "text"
+						},
+						{
+							"key": "rating_date",
+							"value": "2023-03-29",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/imdb/movies/3/ratings?rating",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"imdb",
+						"movies",
+						"3",
+						"ratings"
+					],
+					"query": [
+						{
+							"key": "rating",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New actor",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Christopher Lloyd",
+							"type": "text"
+						},
+						{
+							"key": "birth_year",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/imdb/actors",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"imdb",
+						"actors"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

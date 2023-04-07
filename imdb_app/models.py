@@ -60,7 +60,7 @@ class Rating(models.Model):
 class MovieActor(models.Model):
     actor = models.ForeignKey(Actor, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    salary = models.IntegerField()
+    salary = models.IntegerField(null=True, blank=True)
     main_role = models.BooleanField(null=False, blank=False)
 
     def __str__(self):

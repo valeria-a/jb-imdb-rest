@@ -4,7 +4,6 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.request import Request
 
-
 from imdb_app.models import *
 from imdb_app.serializers import *
 
@@ -31,7 +30,6 @@ from django.db.models import Avg
 
 @api_view(['GET', 'POST'])
 def get_movies(request: Request):
-
     if request.method == 'GET':
         all_movies = Movie.objects.all()
         print("initial query:", all_movies.query)
@@ -58,7 +56,6 @@ def get_movies(request: Request):
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
 
-
 @api_view(['GET', 'PUT', 'PATCH', 'DELETE'])
 def get_movie(request, movie_id):
     # try:
@@ -81,13 +78,56 @@ def get_movie(request, movie_id):
         movie.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-@api_view(['GET'])
-def get_movie_actors(request, movie_id):
 
+@api_view(['GET', 'POST'])
+def movie_actors(request: Request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
-    all_casts = movie.movieactor_set.all()
-    serializer = CastSerializer(instance=all_casts, many=True)
+    if request.method == 'GET':
+        all_casts = movie.movieactor_set.all()
+        serializer = CastSerializer(instance=all_casts, many=True)
+        return Response(data=serializer.data)
+    elif request.method == 'POST':
+        # Injecting movie_id from the path param
+        # We need to perform copy() since request.data is immutable
+        full_data = request.data.copy()
+        full_data['movie'] = movie_id
+        serializer = WriteCastSerializer(data=full_data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+
+@api_view(['PUT'])
+def movie_actor(request, movie_id, actor_id):
+    cast = get_object_or_404(MovieActor, movie_id=movie_id, actor_id=actor_id)
+
+    # no need to inject here movie_id / actor_id in data, since
+    # serializer will take these values from cast object, and we allow partial=True
+    serializer = WriteCastSerializer(data=request.data, instance=cast, partial=True)
+
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
     return Response(data=serializer.data)
+
+
+@api_view(['POST'])
+def movie_ratings(request, movie_id):
+    get_object_or_404(Movie, pk=movie_id)
+
+    full_data = request.data.copy()
+    full_data['movie'] = movie_id
+    serializer = RatingSerializer(data=full_data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+
+    return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['DELETE'])
+def movie_rating(request, movie_id, rating_id):
+    rating = get_object_or_404(Rating, movie_id=movie_id, id=rating_id)
+    rating.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET', 'POST'])
@@ -103,9 +143,31 @@ def actors(request):
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
 
+@api_view(['GET', 'PUT', 'DELETE'])
+def actor_details(request: Request, actor_id):
+    actor = get_object_or_404(Actor, pk=actor_id)
+    if request.method == 'GET':
+        serializer = ActorSerializer(instance=actor)
+        return Response(data=serializer.data)
+    elif request.method == 'PUT':
+        # Allow PUT method both for partial and full updates
+        serializer = ActorSerializer(instance=actor, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(data=serializer.data)
+    else:
+        # DELETE
+        actor.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 @api_view(['GET'])
-def get_ratings(request):
+def get_ratings(request: Request):
     all_ratings = Rating.objects.all()
+    if 'from_date' in request.query_params:
+        all_ratings = all_ratings.filter(rating_date__gte=request.query_params['from_date'])
+    if 'to_date' in request.query_params:
+        all_ratings = all_ratings.filter(rating_date__lte=request.query_params['to_date'])
     serializer = RatingSerializer(instance=all_ratings, many=True)
     return Response(data=serializer.data)
 
@@ -117,11 +179,10 @@ def get_movie_ratings(request, movie_id):
         instance=movie.rating_set.all(), many=True)
     return Response(data=serializer.data)
 
+
 @api_view(['GET'])
 def get_avg_movie_rating(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
     avg_rating = movie.rating_set.aggregate(Avg('rating'))
     print(avg_rating)
     return Response(avg_rating)
-
-
