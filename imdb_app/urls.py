@@ -28,9 +28,16 @@ from imdb_app.view_sets import MovieViewSet
 
 router = DefaultRouter()
 router.register('movies', MovieViewSet)
-print(router.urls)
 # movies/ POST, GET(list)
 # movies/<int:movie_id> # PUT/PATCH GET DELETE
+# router.register(r'^movies/(?P<pk>[^/.]+)/actors', MovieActorSet)
+# movies / movie_id /actors
+# movies / movie_id /actors/actor_id
+
+# movie_actor/movie_actor_id
+
+print(router.urls)
+
 
 # movies/234
 
