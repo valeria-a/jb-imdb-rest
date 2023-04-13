@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
 from imdb_app import views
+from imdb_app.view_sets import MovieViewSet
 
 # http://127.0.0.1:8000/api/imdb/movies
 # movies
@@ -24,9 +26,18 @@ from imdb_app import views
 # http://127.0.0.1:8000/api/imdb/movies/3
 # http://127.0.0.1:8000/api/imdb/movies/327
 
+router = DefaultRouter()
+router.register('movies', MovieViewSet)
+print(router.urls)
+# movies/ POST, GET(list)
+# movies/<int:movie_id> # PUT/PATCH GET DELETE
+
+# movies/234
+
 urlpatterns = [
-    path('movies', views.get_movies),
-    path('movies/<int:movie_id>', views.get_movie),
+    # path('movies', views.get_movies),
+    # path('movies/<int:movie_id>', views.get_movie),
+
     path('movies/<int:movie_id>/actors', views.movie_actors),
     path('movies/<int:movie_id>/actors/<int:actor_id>', views.movie_actor),
     path('movies/<int:movie_id>/ratings', views.movie_ratings),
@@ -38,4 +49,12 @@ urlpatterns = [
     path('ratings', views.get_ratings),
     path('movies/<int:movie_id>/ratings', views.get_movie_ratings),
     path('movies/<int:movie_id>/ratings/avg', views.get_avg_movie_rating),
+
+    #movies/
+    #movies/<int:movie_id>
 ]
+
+# don't do this!
+# urlpatterns.append(router.urls)
+
+urlpatterns.extend(router.urls)
