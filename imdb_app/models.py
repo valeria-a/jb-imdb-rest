@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
@@ -52,6 +53,7 @@ class Rating(models.Model):
                 validators=[MinValueValidator(1), MaxValueValidator(10)])
     rating_date = models.DateField(db_column='rating_date', null=False, auto_now_add=True)
 
+    # created_by = models.ForeignKey(User)
 
     class Meta:
         db_table = 'ratings'
@@ -69,3 +71,6 @@ class MovieActor(models.Model):
 
     class Meta:
         db_table = 'movie_actors'
+
+
+

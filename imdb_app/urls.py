@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from imdb_app import views
 from imdb_app.view_sets import MovieViewSet
@@ -44,6 +45,9 @@ print(router.urls)
 urlpatterns = [
     # path('movies', views.get_movies),
     # path('movies/<int:movie_id>', views.get_movie),
+
+    path('auth/login', TokenObtainPairView.as_view()),
+    # path('api/auth/refresh', TokenRefreshView.as_view()),
 
     path('movies/<int:movie_id>/actors', views.movie_actors),
     path('movies/<int:movie_id>/actors/<int:actor_id>', views.movie_actor),
