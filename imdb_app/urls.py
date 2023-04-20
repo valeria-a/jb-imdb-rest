@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from imdb_app import views
 from imdb_app.view_sets import MovieViewSet
+from imdb_app.views import signup
 
 # http://127.0.0.1:8000/api/imdb/movies
 # movies
@@ -47,7 +48,8 @@ urlpatterns = [
     # path('movies/<int:movie_id>', views.get_movie),
 
     path('auth/login', TokenObtainPairView.as_view()),
-    # path('api/auth/refresh', TokenRefreshView.as_view()),
+    path('auth/refresh', TokenRefreshView.as_view()),
+    path('auth/signup', signup),
 
     path('movies/<int:movie_id>/actors', views.movie_actors),
     path('movies/<int:movie_id>/actors/<int:actor_id>', views.movie_actor),

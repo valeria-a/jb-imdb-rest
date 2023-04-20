@@ -186,3 +186,12 @@ def get_avg_movie_rating(request, movie_id):
     avg_rating = movie.rating_set.aggregate(Avg('rating'))
     print(avg_rating)
     return Response(avg_rating)
+
+
+@api_view(['POST'])
+def signup(request):
+    s = SignupSerializer(data=request.data)
+    s.is_valid(raise_exception=True)
+    s.save()
+
+    return Response(data=s.data)
