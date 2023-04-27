@@ -3,6 +3,7 @@ from django_filters import FilterSet
 from rest_framework import mixins
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, BasePermission
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
@@ -25,16 +26,32 @@ class MovieFilterSet(FilterSet):
         model = Movie
         fields = ['release_year']
 
+
+class MoviePermission(BasePermission):
+
+    def has_permission(self, request, view):
+        print("inside has_permission")
+        return request.user.is_staff or view.action \
+            in ('list', 'retrieve')
+
+    def has_object_permission(self, request, view, obj):
+        print("inside has_object_permission", obj)
+        return view.action == 'retrieve' or \
+            obj.created_by == request.user
+        # obj.created_by_id == request.user.id
 class MovieViewSet(mixins.CreateModelMixin,
                    mixins.RetrieveModelMixin,
                    mixins.UpdateModelMixin,
                    mixins.ListModelMixin,
+                   mixins.DestroyModelMixin,
                    GenericViewSet):
 
     serializer_class = MovieSerializer
     queryset = Movie.objects.all()
     pagination_class = MoviePageClass
     filterset_class = MovieFilterSet
+    # permission_classes = [IsAuthenticated]
+    permission_classes = [MoviePermission]
 
     # movies/actors
     # movies/<movie_id>/actors
@@ -44,6 +61,12 @@ class MovieViewSet(mixins.CreateModelMixin,
     #     all_casts = movie.movieactor_set.all()
     #     serializer = CastSerializer(instance=all_casts, many=True)
     #     return Response(data=serializer.data)
+
+    # def get_permissions(self):
+    #     if self.action in ('create', 'update', 'destroy'):
+    #         return [IsAdminUser()]
+    #     else:
+    #         return []
 
     def get_serializer_class(self):
         if self.action == 'retrieve':
