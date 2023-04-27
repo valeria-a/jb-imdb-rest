@@ -35,6 +35,7 @@ class Movie(models.Model):
     pic_url = models.URLField(max_length=512, db_column='pic_url', null=True)
 
     actors = models.ManyToManyField(Actor, through='MovieActor')
+    created_by = models.ForeignKey(User, null=True, on_delete=models.RESTRICT)
 
     # def __str__(self):
     #     return self.name

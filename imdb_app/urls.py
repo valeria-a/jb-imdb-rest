@@ -20,7 +20,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from imdb_app import views
 from imdb_app.view_sets import MovieViewSet
-from imdb_app.views import signup
+from imdb_app.views import signup, me
 
 # http://127.0.0.1:8000/api/imdb/movies
 # movies
@@ -50,6 +50,7 @@ urlpatterns = [
     path('auth/login', TokenObtainPairView.as_view()),
     path('auth/refresh', TokenRefreshView.as_view()),
     path('auth/signup', signup),
+    path('auth/me', me),
 
     path('movies/<int:movie_id>/actors', views.movie_actors),
     path('movies/<int:movie_id>/actors/<int:actor_id>', views.movie_actor),

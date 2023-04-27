@@ -131,3 +131,8 @@ class SignupSerializer(ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        exclude = ['password', 'groups', 'last_login', 'user_permissions']
